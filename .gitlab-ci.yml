@@ -1,0 +1,4 @@
+create_file:
+  image: alpine
+  script:
+    - echo "Test ..."
