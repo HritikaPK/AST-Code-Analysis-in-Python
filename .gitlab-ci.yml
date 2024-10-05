@@ -1,19 +1,9 @@
-image: python:3.10.11
+image: python:3.9  # Use the Python Docker image
 
-stages:
-  - test
-
-test_identifiers:
+test:
   stage: test
   script:
-    - |
-      # PowerShell syntax for looping through test cases
-      Get-ChildItem -Filter "testcase_*.py" | ForEach-Object {
-          Write-Host "Running $_.Name..."
-          python 1.py "$($_.FullName)"
-      }
-
-rules:
-  - when: on_success
-  - changes:
-      - testcase_*.py
+    - for file in testcase_*.py; do
+        echo "Running $file...";
+        python 1.py "$file";
+      done
