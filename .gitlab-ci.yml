@@ -1,9 +1,9 @@
-image: python:3.9  # Use the Python Docker image
+image: python:3.10.11  # Use the Python Docker image
 
 test:
   stage: test
   script:
-    - for file in testcase_*.py; do
-        echo "Running $file...";
-        python 1.py "$file";
-      done
+    - Get-ChildItem -Filter "testcase_*.py" | ForEach-Object {
+        Write-Host "Running $_.Name..."
+        python main_code.py $_.FullName
+      }
