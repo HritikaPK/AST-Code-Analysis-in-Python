@@ -6,8 +6,14 @@ stages:
 test_identifiers:
   stage: test
   script:
-    # Run all test cases in the directory
-    - for file in testcase_*.py; do
-        echo "Running $file...";
-        python 1.py "$file";
-      done
+    - |
+      # PowerShell syntax for looping through test cases
+      Get-ChildItem -Filter "testcase_*.py" | ForEach-Object {
+          Write-Host "Running $_.Name..."
+          python 1.py "$($_.FullName)"
+      }
+
+rules:
+  - when: on_success
+  - changes:
+      - testcase_*.py
