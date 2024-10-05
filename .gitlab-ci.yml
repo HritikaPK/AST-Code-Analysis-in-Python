@@ -5,5 +5,5 @@ test:
   script:
     - Get-ChildItem -Filter "testcase_*.py" | ForEach-Object {
         Write-Host "Running $_.Name..."
-        python main_code.py $_.FullName
+        python 1.py $_.FullName
       }
