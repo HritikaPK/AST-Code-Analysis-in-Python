@@ -3,7 +3,7 @@ import sys
 
 class IdentifierCheck(ast.NodeVisitor):
     def __init__(self):
-        # Use a set to store unique identifiers of length 13
+        # Set to store unique identifiers of length 13
         self.length_equals_13 = set()
 
     # Check if name is string and identifier length is 13
@@ -82,11 +82,11 @@ if __name__ == "__main__":
         # Parse the test case into an AST
         parsed_code = ast.parse(test_case_code)
 
-        # Initialize the checker and visit the parsed AST
+        # Initialize 
         identifier_checker = IdentifierCheck()
         identifier_checker.visit(parsed_code)
 
-        # Output the results
+        # Output 
         identifier_checker.display()
 
     except FileNotFoundError:
