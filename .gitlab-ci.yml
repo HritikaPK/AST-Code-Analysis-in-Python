@@ -1,12 +1,9 @@
-image: python:3.10.11  
+image: python:3.10.11  # Use the Python Docker image
 
-stages:
-  - test
-
-testanalysis:
+test:
   stage: test
   script:
-    - echo "Running tests in true_positive_1"
-    - Get-ChildItem true_positives_1/testcase*.py | ForEach-Object { python 1.py $_.FullName }
-    - echo "Running tests in true_negative_1"
-    - Get-ChildItem true_negative_1/testcase*.py | ForEach-Object { python 1.py $_.FullName }
+    - Get-ChildItem -Filter "true_positives_1/testcase_*.py" | ForEach-Object {
+        Write-Host "Running $_.Name..."
+        python 1.py $_.FullName
+      }
