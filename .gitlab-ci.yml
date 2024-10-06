@@ -1,17 +1,10 @@
-stages:
-  - setup
-  - test
+image: python:3.12
 
-install_python:
-  stage: setup
-  script:
-    - curl -o python-install.sh https://www.python.org/ftp/python/3.12.x/python-3.12.x-amd64.exe
-    - chmod +x python-install.sh
-    - ./python-install.sh /quiet InstallAllUsers=1 PrependPath=1
-    - python --version
+stages:
+  - test
 
 run_tests:
   stage: test
   script:
-    - python --version
+    - python3 --version
     - echo "Run your test scripts or commands here"
