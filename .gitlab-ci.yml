@@ -1,9 +1,35 @@
-image: python:3.10.11  # Use the Python Docker image
+image: python:3.12  # Use Python image
 
-test:
+stages:
+  - test
+
+before_script:
+  - pip install -r requirements.txt || true  # Install dependencies if necessary
+
+test_analysis:
   stage: test
   script:
-    - Get-ChildItem -Filter "testcase_*.py" | ForEach-Object {
-        Write-Host "Running $_.Name..."
-        python 1.py $_.FullName
-      }
+    - |
+      pwsh -Command "
+      # Define directories containing test cases
+      $directories = @('true_negative_1', 'true_positives_1', 'true_positives_2');
+
+      # Loop over each directory and run test cases
+      foreach ($dir in $directories) {
+          # Get test case files matching the pattern 'testcase_*.py'
+          $testcases = Get-ChildItem -Path $dir\testcase_*.py;
+
+          # Run Python script for each test case
+          foreach ($testcase in $testcases) {
+              Write-Host 'Running test case:' $testcase.FullName;
+              python 1.py $testcase.FullName;  # Run Python script with test case as argument
+          }
+      }"
+
+artifacts:
+  when: always
+  expire_in: 1 week
+  reports:
+    junit: test-reports.xml  # Store test reports in JUnit format
+  paths:
+    - output/  # Specify where outputs/logs would be stored
