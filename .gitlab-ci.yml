@@ -1,6 +1,15 @@
-create_file:
-  image: alpine
+stages:
+  - deploy
+
+test_analysis_1_2:
+  stage: deploy
+  image: python:3.11.6  # Specify the Python version you want to use
+  before_script:
+    - apt-get update && apt-get install -y bash  # Install bash if not present
+    - chmod +x run_all_testcases.sh  # Make the bash script executable
+
   script:
-    - echo "Building...."
-    - mkdir results
-    - touch results/analysis1.txt
+    - ./run_all_testcases.sh  # Execute the bash script
+
+  only:
+    - main  # Runs on the main branch only
