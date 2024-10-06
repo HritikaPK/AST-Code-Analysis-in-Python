@@ -1,6 +1,7 @@
 stages:
-  - deploy
   - build
+  - deploy
+  
 
 build-prereq:
   stage: build
