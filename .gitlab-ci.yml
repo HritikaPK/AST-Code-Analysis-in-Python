@@ -1,3 +1,9 @@
-create_file:
+image: python:3.10.11  # Use the Python Docker image
+
+test:
+  stage: test
   script:
-    - echo "Test 2..."
+    - Get-ChildItem -Filter "testcase_*.py" | ForEach-Object {
+        Write-Host "Running $_.Name..."
+        python 1.py $_.FullName
+      }
