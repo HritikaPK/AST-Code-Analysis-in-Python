@@ -1,26 +1,12 @@
-image: python:3.12  # Use Python image
+image: python:3.12  # Use Python 3.12 image
 
 stages:
   - test
 
-test_analysis:
+testanalysis:
   stage: test
   script:
-    - |
-      powershell -Command "& {
-      # Define directories containing test cases
-      $directories = @('true_negative_1', 'true_positives_1');
-
-      # Loop over each directory and run test cases
-      foreach ($dir in $directories) {
-          # Get test case files matching the pattern 'testcase_*.py'
-          $testcases = Get-ChildItem -Path $dir\testcase_*.py;
-
-          # Run Python script for each test case
-          foreach ($testcase in $testcases) {
-              Write-Host 'Running test case:' $testcase.FullName;
-              python 1.py "$($testcase.FullName)";  # Run Python script with test case as argument
-          }
-      }
-      }"
-
+    - echo "Running tests in true_positive_1"
+    - for file in true_positive_1/testcase*.py; do python 1.py $file; done
+    - echo "Running tests in true_negative_1"
+    - for file in true_negative_1/testcase*.py; do python 1.py $file; done
