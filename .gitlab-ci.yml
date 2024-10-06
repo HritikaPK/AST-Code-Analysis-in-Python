@@ -4,13 +4,13 @@ stages:
   - test
 
 before_script:
-  - pip install -r requirements.txt || true  # Install dependencies if necessary
+  - pip install -r requirements.txt  # Install dependencies
 
 test_analysis:
   stage: test
   script:
     - |
-      powershell -Command "
+      powershell -Command "& {
       # Define directories containing test cases
       $directories = @('true_negative_1', 'true_positives_1');
 
@@ -22,7 +22,8 @@ test_analysis:
           # Run Python script for each test case
           foreach ($testcase in $testcases) {
               Write-Host 'Running test case:' $testcase.FullName;
-              python 1.py $testcase.FullName;  # Run Python script with test case as argument
+              python 1.py "$($testcase.FullName)";  # Run Python script with test case as argument
           }
+      }
       }"
 
