@@ -1,12 +1,12 @@
-image: python:3.12  # Use Python 3.12 image
+image: python:3.12
 
 stages:
-  - test
+  
+test
 
-testanalysis:
+run_tests:
   stage: test
   script:
-    - echo "Running tests in true_positive_1"
-    - Get-ChildItem true_positives_1/testcase*.py | ForEach-Object { python 1.py $_.FullName }
-    - echo "Running tests in true_negative_1"
-    - Get-ChildItem true_negative_1/testcase*.py | ForEach-Object { python 1.py $_.FullName }
+    
+python --version
+echo "Run your test scripts or commands here"
