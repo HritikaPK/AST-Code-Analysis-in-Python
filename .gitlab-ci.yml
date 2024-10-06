@@ -1,15 +1,26 @@
 stages:
   - deploy
+  - build
 
-test_analysis_1_2:
-  stage: deploy
+build-prereq:
+  stage: build
   image: python:3.11.6  # Specify the Python version you want to use
-  before_script:
+  script:
     - apt-get update && apt-get install -y bash  # Install bash if not present
     - chmod +x run_all_testcases.sh  # Make the bash script executable
 
+run_analysis_1:
+  stage: deploy
   script:
-    - ./run_all_testcases.sh  # Execute the bash script
+    - ./run_analysis1.sh  # Execute the bash script
+
+  only:
+    - main  # Runs on the main branch only
+
+run_analysis_2:
+  stage: deploy
+  script:
+    - ./run_analysis2.sh  # Execute the bash script
 
   only:
     - main  # Runs on the main branch only
