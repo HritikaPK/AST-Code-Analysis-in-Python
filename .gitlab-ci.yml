@@ -1,12 +1,10 @@
 image: python:3.12
 
 stages:
-  
-test
+  - test
 
 run_tests:
   stage: test
   script:
-    
-python --version
-echo "Run your test scripts or commands here"
+    - python --version
+    - echo "Run your test scripts or commands here"
