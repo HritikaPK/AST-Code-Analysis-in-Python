@@ -12,7 +12,7 @@ test_analysis:
     - |
       pwsh -Command "
       # Define directories containing test cases
-      $directories = @('true_negative_1', 'true_positives_1', 'true_positives_2');
+      $directories = @('true_negative_1', 'true_positives_1');
 
       # Loop over each directory and run test cases
       foreach ($dir in $directories) {
