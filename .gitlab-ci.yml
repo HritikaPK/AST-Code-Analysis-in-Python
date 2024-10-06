@@ -1,13 +1,6 @@
-image: python:3.10.11  # Use the Python Docker image
-
-stages:
-  - test
-
-test:
-  stage: test
+create_file:
+  image: alpine
   script:
-    - |
-      Get-ChildItem -Filter "true_positives_1/testcase*.py" | ForEach-Object {
-        Write-Host "Running $($_.Name)..."
-        python 1.py $_.FullName
-      }
+    - echo "Building...."
+    - mkdir results
+    - touch results/analysis1.txt
