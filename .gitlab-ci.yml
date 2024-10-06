@@ -8,8 +8,8 @@ build-prereq:
   image: python:3.11.6  # Specify the Python version you want to use
   script:
     - apt-get update && apt-get install -y bash  # Install bash if not present
-    - chmod +x run_analysis1.sh  # Make the bash script executable
-    - chmod +x run_analysis2.sh
+
+    
 
 run_analysis_1:
   stage: deploy
@@ -17,10 +17,13 @@ run_analysis_1:
   dependencies:
     - build-prereq  # Ensure this job runs after build-prereq
   script:
+    - chmod +x run_analysis1.sh
     - ./run_analysis1.sh  # Execute the bash script
 
   only:
     - main  # Runs on the main branch only
+
+
 
 run_analysis_2:
   stage: deploy
@@ -28,6 +31,7 @@ run_analysis_2:
   dependencies:
     - build-prereq  # Ensure this job runs after build-prereq
   script:
+    - chmod +x run_analysis2.sh
     - ./run_analysis2.sh  # Execute the bash script
 
   only:
