@@ -7,7 +7,7 @@ test:
   stage: test
   script:
     - |
-      Get-ChildItem -Filter "truepositives_1/testcase*.py" | ForEach-Object {
+      Get-ChildItem -Filter "true_positives_1/testcase*.py" | ForEach-Object {
         Write-Host "Running $($_.Name)..."
         python 1.py $_.FullName
       }
