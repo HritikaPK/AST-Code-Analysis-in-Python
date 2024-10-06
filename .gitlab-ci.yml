@@ -1,7 +1,18 @@
-image: python:3.12  # Use Python 3.12 image
+image: python:3.12  # This line is irrelevant if the job runs on the shell executor and not in a Docker container.
 
 stages:
+  - setup
   - test
+
+install_python:
+  stage: setup
+  script:
+    - $pythonInstaller = "python-3.10.5-amd64.exe"
+    - $downloadUrl = "https://www.python.org/ftp/python/3.10.5/$pythonInstaller"
+    - Invoke-WebRequest -Uri $downloadUrl -OutFile $pythonInstaller
+    - Start-Process $pythonInstaller -ArgumentList '/quiet InstallAllUsers=1 PrependPath=1' -Wait
+    - RefreshEnv.cmd  # Refresh the environment variables to recognize Python
+    - python --version  # Check the Python version to confirm installation
 
 testanalysis:
   stage: test
