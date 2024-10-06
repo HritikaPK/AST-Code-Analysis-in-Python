@@ -10,7 +10,7 @@ test_analysis:
   stage: test
   script:
     - |
-      pwsh -Command "
+      powershell -Command "
       # Define directories containing test cases
       $directories = @('true_negative_1', 'true_positives_1');
 
