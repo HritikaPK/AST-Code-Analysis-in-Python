@@ -1,61 +1,48 @@
 import ast
 import sys
 
-class ControlFlowDepthAnalyzer(ast.NodeVisitor):
+class MaxControlStruct(ast.NodeVisitor):
     def __init__(self):
-        self.current_depth = 0
-        self.max_depth = 0
-        self.nested_blocks = []  # Track names of control blocks
+        self.present_depth = 0
+        self.maximum = 0
+        self.nested = []  
 
     def visit(self, node):
-        """Override the visit method to track depth before calling the specific visit method."""
-        # Check if the node is a control structure
-        control_structures = (
-            ast.If, ast.For, ast.While, ast.With, ast.Try, 
-            ast.Match, ast.Break, ast.Continue,
-            ast.ExceptHandler
-        )
+        cs = (ast.If, ast.For, ast.While, ast.With, ast.Try, ast.Match, ast.Break, ast.Continue,ast.ExceptHandler)
 
-        if isinstance(node, control_structures):
-            self.current_depth += 1
-            self.max_depth = max(self.max_depth, self.current_depth)
+        if isinstance(node, cs):
+            self.present_depth += 1
+            self.maximum = max(self.maximum, self.present_depth)
 
-        # Visit the node
         self.generic_visit(node)
 
-        # Check for exit conditions and clean up
-        if isinstance(node, control_structures):
-            self.current_depth -= 1
+        if isinstance(node, cs):
+            self.present_depth -= 1
 
-    def report_depth(self, limit=4):
-        """Generate a report based on the depth of nesting."""
-        if self.max_depth > limit:
-            print(f"Exceeded allowed nesting depth: {self.max_depth}")
+    def display(self, limit=4):
+        if self.maximum > limit:
+            print(f"Exceeded allowed nesting depth: {self.maximum}")
         else:
-            print(f"Nesting depth is within limit: {self.max_depth}")
+            print(f"Nesting depth is within limit: {self.maximum}")
 
-# Main function to load test case files
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: python control_flow_depth.py <test_case_filename>")
+        print("Usage: python control_flow_depth.py <testcasename>")
         sys.exit(1)
 
-    test_case_file = sys.argv[1]
-
+    testcase = sys.argv[1]
     try:
-        # Open and read the test case file
-        with open(test_case_file, 'r') as f:
+        
+        with open(testcase, 'r') as f:
             test_case_code = f.read()
-
-        # Parse the test case into an AST
+        
         parsed_code = ast.parse(test_case_code)
-
-        # Initialize the analyzer and visit the parsed AST
-        depth_analyzer = ControlFlowDepthAnalyzer()
+        
+        depth_analyzer = MaxControlStruct()
         depth_analyzer.visit(parsed_code)
 
-        # Output the results
-        depth_analyzer.report_depth()
+        
+        depth_analyzer.display()
 
     except FileNotFoundError:
-        print(f"Error: The file '{test_case_file}' was not found.")
+        print(f"Error: The file '{testcase}' was not found.")

@@ -11,28 +11,69 @@ build-prereq:
 
     
 
-run_analysis_1:
+run_analysis_1_true_positives:
   stage: deploy
   image: python:3.11.6  # Ensure you have the same Python version for consistency
   dependencies:
     - build-prereq  # Ensure this job runs after build-prereq
   script:
-    - chmod +x run_analysis1.sh
-    - ./run_analysis1.sh  # Execute the bash script
+    - chmod +x run_true_positive_1.sh.sh
+    - ./run_true_positive_1.sh  # Execute the bash script
 
   only:
     - main  # Runs on the main branch only
 
 
 
-run_analysis_2:
+run_analysis_1_true_negatives:
   stage: deploy
   image: python:3.11.6  # Ensure you have the same Python version for consistency
   dependencies:
     - build-prereq  # Ensure this job runs after build-prereq
   script:
-    - chmod +x run_analysis2.sh
-    - ./run_analysis2.sh  # Execute the bash script
+    - chmod +x run_true_negative_1.sh
+    - ./run_true_negative_1.sh  # Execute the bash script
 
+  only:
+    - main  # Runs on the main branch only
+
+
+
+
+run_analysis_2_true_positives:
+  stage: deploy
+  image: python:3.11.6  # Ensure you have the same Python version for consistency
+  dependencies:
+    - build-prereq  # Ensure this job runs after build-prereq
+  script:
+    - chmod +x run_true_positive_2.sh
+    - ./run_true_positive_2.sh  # Execute the bash script
+
+  only:
+    - main  # Runs on the main branch only
+
+
+
+run_analysis_2_true_negatives:
+  stage: deploy
+  image: python:3.11.6  # Ensure you have the same Python version for consistency
+  dependencies:
+    - build-prereq  # Ensure this job runs after build-prereq
+  script:
+    - chmod +x run_true_negative_2.sh
+    - ./n_true_negative_2.sh  # Execute the bash script
+
+  only:
+    - main  # Runs on the main branch only
+
+
+
+run_analysis_1_false_negatives:
+  stage: deploy
+  image: python:3.11.6  # Ensure you have the same Python version for consistency
+  dependencies:
+    - build-prereq  # Ensure this job runs after build-prereq
+  script:
+    - python 1.py false_negative_1.py
   only:
     - main  # Runs on the main branch only
