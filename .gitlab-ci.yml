@@ -17,7 +17,7 @@ run_analysis_1_true_positives:
   dependencies:
     - build-prereq  # Ensure this job runs after build-prereq
   script:
-    - chmod +x run_true_positive_1.sh.sh
+    - chmod +x run_true_positive_1.sh
     - ./run_true_positive_1.sh  # Execute the bash script
 
   only:
@@ -61,7 +61,7 @@ run_analysis_2_true_negatives:
     - build-prereq  # Ensure this job runs after build-prereq
   script:
     - chmod +x run_true_negative_2.sh
-    - ./n_true_negative_2.sh  # Execute the bash script
+    - ./run_true_negative_2.sh  # Execute the bash script
 
   only:
     - main  # Runs on the main branch only
