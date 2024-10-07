@@ -13,13 +13,11 @@ class IdentifierCheck(ast.NodeVisitor):
 
     # Variable names
     def visit_Name(self, node):
-        """Visit variable names."""
         self.identifier_length_check(node.id)
         self.generic_visit(node)
     
     # Function names and argument names
     def visit_FunctionDef(self, node):
-        """Visit function names and their argument names."""
         self.identifier_length_check(node.name)
         for arg in node.args.args:
             self.identifier_length_check(arg.arg)
@@ -27,46 +25,40 @@ class IdentifierCheck(ast.NodeVisitor):
 
     # Class names
     def visit_ClassDef(self, node):
-        """Visit class names."""
         self.identifier_length_check(node.name)
         self.generic_visit(node)
 
     # Attribute names
     def visit_Attribute(self, node):
-        """Visit attribute names."""
         self.identifier_length_check(node.attr)
         self.generic_visit(node)
     
     # Global variable names
     def visit_Global(self, node):
-        """Visit global variable names."""
         for name in node.names:
             self.identifier_length_check(name)
         self.generic_visit(node)
     
     # Nonlocal variable names
     def visit_Nonlocal(self, node):
-        """Visit nonlocal variable names."""
         for name in node.names:
             self.identifier_length_check(name)
         self.generic_visit(node)
 
     # Alias names
     def visit_alias(self, node):
-        """Visit import alias names."""
         self.identifier_length_check(node.asname)
         self.identifier_length_check(node.name)
         self.generic_visit(node)
 
     # Display result
     def display(self):
-        """Report all identifiers that are 13 characters long."""
         if self.length_equals_13:
             print("Identifiers with length 13:", list(self.length_equals_13))
         else:
             print("No identifiers with length 13 were found.")
 
-# Main function to load test case files
+# load test case files
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: python identifiers.py <test_case_filename>")
