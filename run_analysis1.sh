@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # Running 1.py on test cases from true_positives_1 and true_negative_1
+echo "Analysis: There are no identifiers with length equal 13"
+echo 
 echo "Running 1.py on true_positives_1"
 echo
 echo
