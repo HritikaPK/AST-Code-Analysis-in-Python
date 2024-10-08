@@ -1,2 +1,4 @@
-class ClassNameWithLotsOfCharacters:  # This class has 13 characters
+class ClassNameWithLotsOfCharacters:  
+    print("Class name testcase")
+    print("")
     pass

@@ -68,12 +68,37 @@ run_analysis_2_true_negatives:
 
 
 
-run_analysis_1_false_negatives:
+run_analysis_1_false_negative:
   stage: deploy
   image: python:3.11.6  # Ensure you have the same Python version for consistency
   dependencies:
     - build-prereq  # Ensure this job runs after build-prereq
   script:
+    - echo
+    - echo
+    - echo "------------------------------------------"
+    - echo "Running Analysis 1: False Negative case:"
     - python 1.py false_negative_1.py
+    - echo "------------------------------------------"
+    - echo
+    - echo
+  only:
+    - main  # Runs on the main branch only
+
+
+run_analysis_2_false_positive:
+  stage: deploy
+  image: python:3.11.6  # Ensure you have the same Python version for consistency
+  dependencies:
+    - build-prereq  # Ensure this job runs after build-prereq
+  script:
+    - echo
+    - echo
+    - echo "------------------------------------------"
+    - echo "Running Analysis 2: False Positive case:"
+    - python 2_falsepositive.py false_positive_2.py
+    - echo "------------------------------------------"
+    - echo
+    - echo
   only:
     - main  # Runs on the main branch only

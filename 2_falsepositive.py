@@ -8,8 +8,9 @@ class MaxControlStruct(ast.NodeVisitor):
         self.nested = []  
 
     def visit(self, node):
-        cs = (ast.If, ast.For, ast.While, ast.With, ast.Try, ast.Match, ast.Break, ast.Continue)
-        # Removed ast.ExceptHandler to avoid false positives.
+        cs = (ast.If, ast.ExceptHandler, ast.For, ast.While, ast.With, ast.Try, ast.Match, ast.Break, ast.Continue)
+        #ast.ExceptHandler leads to an added control structure depth in testcases 
+        #giving an invalid count of the correct depth.
         if isinstance(node, cs):
             self.present_depth += 1
             self.maximum = max(self.maximum, self.present_depth)
