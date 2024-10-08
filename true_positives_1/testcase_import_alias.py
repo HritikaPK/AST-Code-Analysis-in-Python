@@ -1,4 +1,4 @@
-import numpy as numpy_array_13  # This alias has 13 characters
+import numpy as numpy_arr__13  # This alias has 13 characters
 
 def use_numpy():
-    return numpy_array_13.zeros(5)
+    return numpy_arr__13.zeros(5)
