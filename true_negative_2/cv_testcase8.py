@@ -15,7 +15,7 @@ def example_function():
                 i += 1  # Modify i to avoid infinite loop
             
             # Level 2 (still inside For): Try block
-            try:
+            try: # Level 3
                 print("Trying something...")
             except Exception as e:
                 print("Caught an exception:", e)

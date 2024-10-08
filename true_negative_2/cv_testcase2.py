@@ -4,7 +4,7 @@ def example_two():
         try:  # Level 2
             x = int(input("Enter a number (0 to exit): "))  # Level 2
             if x == 0:  # Level 3
-                break  # Level 3
+                break  # Level 4
         except ValueError:  # Level 2
             print("That's not a valid number!")  # Level 2
 
