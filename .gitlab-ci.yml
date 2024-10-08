@@ -68,7 +68,7 @@ run_analysis_2_true_negatives:
 
 
 
-run_analysis_1_false_negative:
+run_analysis_1_false_negatives:
   stage: deploy
   image: python:3.11.6  # Ensure you have the same Python version for consistency
   dependencies:
