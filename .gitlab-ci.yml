@@ -39,7 +39,6 @@ run_analysis_1_true_negatives:
 
 
 
-
 run_analysis_2_true_positives:
   stage: deploy
   image: python:3.11.6  
