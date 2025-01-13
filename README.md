@@ -1,93 +1,29 @@
-# ece654-a1
+# AST Code Analysis in Python
 
 
 
-## Getting started
+## High Level Description
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+I have implemented the 2 analyses using the AST libraries built-in functions and classes.
+This code is something I wrote to check for identifiers in Python code that have exactly 13 characters. I used Python's `ast` module to analyze the abstract syntax tree (AST) of the code. Here's how it works:
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+### Analysis 1: Identifier
+This code utilizes Python's `ast` module to analyze Python scripts for identifiers that are exactly 13 characters long. I created a class called `IdentifierCheck`, which inherits from `ast.NodeVisitor`. In the initializer, I set up a set called `length_equals_13` to store unique identifiers meeting the length requirement.
+The method `identifier_length_check()` checks if a name is a string and has a length of 13, adding it to the set if it does. To inspect different identifier types, I implemented several visitor methods. The `visit_Name()` method processes variable names, calling `identifier_length_check()` on `node.id`. The `visit_FunctionDef()` method handles function definitions, checking both the function name and its arguments. Similarly, the `visit_ClassDef()` method processes class names, while `visit_Attribute()` checks attribute names.
+I also implemented `visit_Global()` and `visit_Nonlocal()` methods for global and nonlocal variable names, iterating through the names to apply the identifier check. The `visit_alias()` method verifies alias names, checking both `node.asname` and `node.name`.
+The `display()` method outputs the results, showing found identifiers or indicating none were found. In the main block, the script expects a filename as input, reading the specified test case file. It uses `ast.parse()` to convert the code into an AST, and an instance of `IdentifierCheck` visits the parsed code. Finally, the `display()` method outputs the findings, with error handling for file-related issues.
 
-## Add your files
+### Analysis 2: Control Structure
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+This code uses Python's ast module to analyze the control flow depth of a Python script, focusing on how deeply control structures like if, for, and while are nested. I created a class called ControlFlowDepthAnalyzer, which extends ast.NodeVisitor to enable efficient traversal of the abstract syntax tree (AST) and inspection of its structure.
+In the initializer, I defined current_depth to track the current nesting level and max_depth to store the deepest level encountered. A list called nested_blocks is also initialized, though it primarily serves as a placeholder for potentially tracking the names of control blocks.
+The visit() function examines each node in the AST. When a node represents a control structure—such as ast.If, ast.For, ast.While, ast.With, ast.Try, ast.Match, ast.Break, ast.Continue—the code increases current_depth and checks if this is the deepest level seen so far by updating max_depth accordingly. I utilize self.generic_visit(node) to continue visiting child nodes, and after fully processing the current node, current_depth is decreased to reflect leaving the block.
+Additionally, the report_depth() method prints whether the nesting depth is within a set limit (default is 4) or if it exceeds the allowed depth, ensuring that the code doesn’t become too complex regarding control flow.
+In the main function, I open a test case file, convert it to an AST using ast.parse(), and pass it to the ControlFlowDepthAnalyzer for analysis. If the file doesn’t exist, the code handles this with a FileNotFoundError exception. By leveraging the built-in functionality of the ast module, the code efficiently analyzes the structure of scripts and identifies potential issues with control flow depth.
 
-```
-cd existing_repo
-git remote add origin https://git.uwaterloo.ca/hkalghat/ece654-a1.git
-git branch -M main
-git push -uf origin main
-```
-
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://git.uwaterloo.ca/hkalghat/ece654-a1/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+## Observations About False Negatives and False Positives:
+### Dynamic Variable Names (false negative for Analysis 1):
+In this test case, we create variable names dynamically using a dictionary instead of defining them directly in the code. While the AST can analyze static code, it cannot capture these dynamically generated identifiers like dynamic_var_0, dynamic_var_1, etc., since they are not explicitly defined in the source code.
+As a result, if a static analysis tool checks for identifiers of length 13, it will find none, leading to a false negative.
+### False Positive for Analysis 2: ast.ExceptHandler:
+In the AST, the except Exception as e: clause would be represented by an ast.ExceptHandler node if ast.ExceptHandler is included in the code. Due to this, the nesting level would be calculated as one value greater which would be incorrect. Hence, I have omitted it in the true negative test cases. Otherwise, we would be getting a false positive.
